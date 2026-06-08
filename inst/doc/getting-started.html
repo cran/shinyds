@@ -254,344 +254,403 @@ text-decoration: underline; }
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div>
 </div>
 <p><code>bslib::page_fluid()</code> is the recommended page function — it provides Bootstrap 5 and works cleanly alongside Designsystemet’s own CSS tokens.</p>
+<h2 id="theming">Theming</h2>
+<p>Use <code>ds_theme()</code> alongside <code>use_designsystemet()</code> to override colors, typography, and spacing without writing CSS manually:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_fluid</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_designsystemet</span>(),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_theme</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">color          =</span> <span class="st">&quot;brand1&quot;</span>,       <span class="co"># global color context</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">border_radius  =</span> <span class="st">&quot;2px&quot;</span>,          <span class="co"># tighter corners</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">button_padding =</span> <span class="st">&quot;0.3rem 0.8rem&quot;</span> <span class="co"># compact buttons</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... components</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<p>Pass arbitrary Designsystemet CSS token overrides via <code>...</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_theme</span>(<span class="st">`</span><span class="at">--ds-border-width-focus</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;3px&quot;</span>)</span></code></pre></div>
+</div>
+<p>Available color contexts: <code>&quot;default&quot;</code>, <code>&quot;brand1&quot;</code>, <code>&quot;brand2&quot;</code>, <code>&quot;neutral&quot;</code>, <code>&quot;success&quot;</code>, <code>&quot;warning&quot;</code>, <code>&quot;danger&quot;</code>, <code>&quot;info&quot;</code>.</p>
 <h2 id="form-controls">Form controls</h2>
 <h3 id="button">Button</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label first, then inputId</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Click me&quot;</span>,  <span class="at">inputId =</span> <span class="st">&quot;btn1&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;primary&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Secondary&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;btn2&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;secondary&quot;</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Tertiary&quot;</span>,  <span class="at">inputId =</span> <span class="st">&quot;btn3&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;tertiary&quot;</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># sizes</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Small&quot;</span>,  <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Medium&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Large&quot;</span>,  <span class="at">size =</span> <span class="st">&quot;lg&quot;</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># states</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Disabled&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;primary&quot;</span>, <span class="at">disabled =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Loading&quot;</span>,  <span class="at">variant =</span> <span class="st">&quot;secondary&quot;</span>, <span class="at">loading =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># label first, then inputId</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Click me&quot;</span>,  <span class="at">inputId =</span> <span class="st">&quot;btn1&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;primary&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Secondary&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;btn2&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;secondary&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Tertiary&quot;</span>,  <span class="at">inputId =</span> <span class="st">&quot;btn3&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;tertiary&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># sizes</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Small&quot;</span>,  <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Medium&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Large&quot;</span>,  <span class="at">size =</span> <span class="st">&quot;lg&quot;</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># states</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Disabled&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;primary&quot;</span>, <span class="at">disabled =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Loading&quot;</span>,  <span class="at">variant =</span> <span class="st">&quot;secondary&quot;</span>, <span class="at">loading =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <p><code>input$btn1</code> starts at <code>0</code> and increments by 1 on each click.</p>
+<p><code>ds_action_button(inputId, label, ...)</code> is a drop-in replacement for <code>shiny::actionButton()</code> with the same argument order:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent to shiny::actionButton(&quot;go&quot;, &quot;Submit&quot;)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_action_button</span>(<span class="st">&quot;go&quot;</span>, <span class="st">&quot;Submit&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;primary&quot;</span>)</span></code></pre></div>
+</div>
 <h3 id="text-inputs">Text inputs</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Email&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;email&quot;</span>),</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_input</span>(<span class="st">&quot;email&quot;</span>, <span class="at">type =</span> <span class="st">&quot;email&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;you@example.com&quot;</span>),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_validation_message</span>(<span class="st">&quot;Must be a valid email address&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;error&quot;</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Message&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;msg&quot;</span>),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_textarea</span>(<span class="st">&quot;msg&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;Type here…&quot;</span>, <span class="at">rows =</span> <span class="dv">4</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Email&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;email&quot;</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_input</span>(<span class="st">&quot;email&quot;</span>, <span class="at">type =</span> <span class="st">&quot;email&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;you@example.com&quot;</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_validation_message</span>(<span class="st">&quot;Must be a valid email address&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;error&quot;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Message&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;msg&quot;</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_textarea</span>(<span class="st">&quot;msg&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;Type here…&quot;</span>, <span class="at">rows =</span> <span class="dv">4</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <p>Wrap <code>ds_input()</code> / <code>ds_textarea()</code> in <code>ds_field()</code> with a <code>ds_label()</code> — this is the standard Designsystemet pattern and ensures correct label association and spacing.</p>
 <h3 id="checkbox-and-radio">Checkbox and radio</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_checkbox</span>(<span class="st">&quot;agree&quot;</span>, <span class="at">label =</span> <span class="st">&quot;I accept the terms&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Radio buttons — group them with a shared name</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_radio</span>(<span class="st">&quot;opt_a&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Option A&quot;</span>, <span class="at">value =</span> <span class="st">&quot;a&quot;</span>, <span class="at">name =</span> <span class="st">&quot;opts&quot;</span>, <span class="at">checked =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_radio</span>(<span class="st">&quot;opt_b&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Option B&quot;</span>, <span class="at">value =</span> <span class="st">&quot;b&quot;</span>, <span class="at">name =</span> <span class="st">&quot;opts&quot;</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_checkbox</span>(<span class="st">&quot;agree&quot;</span>, <span class="at">label =</span> <span class="st">&quot;I accept the terms&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Radio buttons — group them with a shared name</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_radio</span>(<span class="st">&quot;opt_a&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Option A&quot;</span>, <span class="at">value =</span> <span class="st">&quot;a&quot;</span>, <span class="at">name =</span> <span class="st">&quot;opts&quot;</span>, <span class="at">checked =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_radio</span>(<span class="st">&quot;opt_b&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Option B&quot;</span>, <span class="at">value =</span> <span class="st">&quot;b&quot;</span>, <span class="at">name =</span> <span class="st">&quot;opts&quot;</span>)</span></code></pre></div>
 </div>
 <p><code>input$agree</code> returns <code>TRUE</code> / <code>FALSE</code>. Radio inputs are individual elements; read any one of the group’s <code>inputId</code> values to get the selected <code>value</code>.</p>
 <h3 id="select">Select</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Country&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;country&quot;</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_select</span>(<span class="st">&quot;country&quot;</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices  =</span> <span class="fu">c</span>(<span class="st">&quot;Norway&quot;</span> <span class="ot">=</span> <span class="st">&quot;no&quot;</span>, <span class="st">&quot;Sweden&quot;</span> <span class="ot">=</span> <span class="st">&quot;se&quot;</span>, <span class="st">&quot;Denmark&quot;</span> <span class="ot">=</span> <span class="st">&quot;dk&quot;</span>),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected =</span> <span class="st">&quot;no&quot;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Country&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;country&quot;</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_select</span>(<span class="st">&quot;country&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices  =</span> <span class="fu">c</span>(<span class="st">&quot;Norway&quot;</span> <span class="ot">=</span> <span class="st">&quot;no&quot;</span>, <span class="st">&quot;Sweden&quot;</span> <span class="ot">=</span> <span class="st">&quot;se&quot;</span>, <span class="st">&quot;Denmark&quot;</span> <span class="ot">=</span> <span class="st">&quot;dk&quot;</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected =</span> <span class="st">&quot;no&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <p><code>input$country</code> returns the selected option’s value string.</p>
 <h3 id="fieldset">Fieldset</h3>
 <p>Group related controls under a shared legend:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_fieldset</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="st">&quot;Notification preferences&quot;</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_checkbox</span>(<span class="st">&quot;notif_email&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Email&quot;</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_checkbox</span>(<span class="st">&quot;notif_sms&quot;</span>,   <span class="at">label =</span> <span class="st">&quot;SMS&quot;</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_checkbox</span>(<span class="st">&quot;notif_push&quot;</span>,  <span class="at">label =</span> <span class="st">&quot;Push&quot;</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_fieldset</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="st">&quot;Notification preferences&quot;</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_checkbox</span>(<span class="st">&quot;notif_email&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Email&quot;</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_checkbox</span>(<span class="st">&quot;notif_sms&quot;</span>,   <span class="at">label =</span> <span class="st">&quot;SMS&quot;</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_checkbox</span>(<span class="st">&quot;notif_push&quot;</span>,  <span class="at">label =</span> <span class="st">&quot;Push&quot;</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <blockquote>
 <p><strong>Note:</strong> <code>ds_fieldset()</code> is backed by a behaviour-only JavaScript module. See the <em>Reactivity Patterns</em> vignette if you need to react to fieldset-level events.</p>
 </blockquote>
 <h3 id="search-and-suggestion">Search and suggestion</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search input — input$q returns the current text</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Search&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;q&quot;</span>),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_search</span>(<span class="st">&quot;q&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;Search…&quot;</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Autocomplete suggestion — input$fruit returns the selected value</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Fruit&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;fruit&quot;</span>),</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_suggestion</span>(<span class="st">&quot;fruit&quot;</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices     =</span> <span class="fu">c</span>(<span class="st">&quot;Apple&quot;</span>, <span class="st">&quot;Banana&quot;</span>, <span class="st">&quot;Cherry&quot;</span>),</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">placeholder =</span> <span class="st">&quot;Start typing…&quot;</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search input — input$q returns the current text</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Search&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;q&quot;</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_search</span>(<span class="st">&quot;q&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;Search…&quot;</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Autocomplete suggestion — input$fruit returns the selected value</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_field</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_label</span>(<span class="st">&quot;Fruit&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;fruit&quot;</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_suggestion</span>(<span class="st">&quot;fruit&quot;</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices     =</span> <span class="fu">c</span>(<span class="st">&quot;Apple&quot;</span>, <span class="st">&quot;Banana&quot;</span>, <span class="st">&quot;Cherry&quot;</span>),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">placeholder =</span> <span class="st">&quot;Start typing…&quot;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <p><code>ds_suggestion()</code> includes built-in keyboard navigation and filtering. If you need a fully custom autocomplete — for example, with server-side filtering or custom option rendering — use <code>ds_combobox()</code> instead. It provides the CSS container only; keyboard navigation and dropdown behaviour are the caller’s responsibility.</p>
 <h3 id="form-validation">Form validation</h3>
 <p>Use <code>ds_validation_message()</code> on individual fields to show inline errors, and <code>ds_error_summary()</code> at the top of the form to collect all errors in one place. Render both conditionally from the server:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_fluid</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_designsystemet</span>(),</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">uiOutput</span>(<span class="st">&quot;error_summary&quot;</span>),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_field</span>(</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_label</span>(<span class="st">&quot;Email&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;email&quot;</span>),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_input</span>(<span class="st">&quot;email&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;you@example.com&quot;</span>),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">uiOutput</span>(<span class="st">&quot;email_error&quot;</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Submit&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;submit&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;primary&quot;</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>submit, {</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    errors <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">nzchar</span>(<span class="fu">trimws</span>(input<span class="sc">$</span>email <span class="sc">%||%</span> <span class="st">&quot;&quot;</span>))) {</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      errors<span class="sc">$</span>email <span class="ot">&lt;-</span> <span class="st">&quot;Email is required&quot;</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;@&quot;</span>, input<span class="sc">$</span>email, <span class="at">fixed =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>      errors<span class="sc">$</span>email <span class="ot">&lt;-</span> <span class="st">&quot;Must be a valid email address&quot;</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>email_error <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(errors<span class="sc">$</span>email))</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_validation_message</span>(errors<span class="sc">$</span>email, <span class="at">variant =</span> <span class="st">&quot;error&quot;</span>)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>error_summary <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">length</span>(errors) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_error_summary</span>(</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>          <span class="at">heading =</span> <span class="st">&quot;Please fix the following errors&quot;</span>,</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>          tags<span class="sc">$</span><span class="fu">li</span>(<span class="fu">ds_link</span>(errors<span class="sc">$</span>email, <span class="at">href =</span> <span class="st">&quot;#email&quot;</span>))</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_fluid</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_designsystemet</span>(),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">uiOutput</span>(<span class="st">&quot;error_summary&quot;</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_field</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_label</span>(<span class="st">&quot;Email&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;email&quot;</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_input</span>(<span class="st">&quot;email&quot;</span>, <span class="at">placeholder =</span> <span class="st">&quot;you@example.com&quot;</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">uiOutput</span>(<span class="st">&quot;email_error&quot;</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Submit&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;submit&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;primary&quot;</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>submit, {</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    errors <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">nzchar</span>(<span class="fu">trimws</span>(input<span class="sc">$</span>email <span class="sc">%||%</span> <span class="st">&quot;&quot;</span>))) {</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      errors<span class="sc">$</span>email <span class="ot">&lt;-</span> <span class="st">&quot;Email is required&quot;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;@&quot;</span>, input<span class="sc">$</span>email, <span class="at">fixed =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>      errors<span class="sc">$</span>email <span class="ot">&lt;-</span> <span class="st">&quot;Must be a valid email address&quot;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>email_error <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(errors<span class="sc">$</span>email))</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_validation_message</span>(errors<span class="sc">$</span>email, <span class="at">variant =</span> <span class="st">&quot;error&quot;</span>)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    output<span class="sc">$</span>error_summary <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">length</span>(errors) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_error_summary</span>(</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>          <span class="at">heading =</span> <span class="st">&quot;Please fix the following errors&quot;</span>,</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>          tags<span class="sc">$</span><span class="fu">li</span>(<span class="fu">ds_link</span>(errors<span class="sc">$</span>email, <span class="at">href =</span> <span class="st">&quot;#email&quot;</span>))</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <p>Link each item in <code>ds_error_summary()</code> to the corresponding field’s <code>id</code> so keyboard users can jump directly to the problem field.</p>
 <h2 id="typography">Typography</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Headings — level sets the HTML element (h1–h6), size sets the visual token</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_heading</span>(<span class="st">&quot;Page Title&quot;</span>,    <span class="at">level =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="st">&quot;2xl&quot;</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_heading</span>(<span class="st">&quot;Section Title&quot;</span>, <span class="at">level =</span> <span class="dv">2</span>, <span class="at">size =</span> <span class="st">&quot;lg&quot;</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_heading</span>(<span class="st">&quot;Card Title&quot;</span>,    <span class="at">level =</span> <span class="dv">3</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_paragraph</span>(<span class="st">&quot;Body copy.&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_paragraph</span>(<span class="st">&quot;Small caption.&quot;</span>, <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_link</span>(<span class="st">&quot;Designsystemet&quot;</span>, <span class="at">href =</span> <span class="st">&quot;https://designsystemet.no&quot;</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_list</span>(</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_list_item</span>(<span class="st">&quot;First&quot;</span>),</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_list_item</span>(<span class="st">&quot;Second&quot;</span>),</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_list_item</span>(<span class="st">&quot;Third&quot;</span>),</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Headings — level sets the HTML element (h1–h6), size sets the visual token</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_heading</span>(<span class="st">&quot;Page Title&quot;</span>,    <span class="at">level =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="st">&quot;2xl&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_heading</span>(<span class="st">&quot;Section Title&quot;</span>, <span class="at">level =</span> <span class="dv">2</span>, <span class="at">size =</span> <span class="st">&quot;lg&quot;</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_heading</span>(<span class="st">&quot;Card Title&quot;</span>,    <span class="at">level =</span> <span class="dv">3</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_paragraph</span>(<span class="st">&quot;Body copy.&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_paragraph</span>(<span class="st">&quot;Small caption.&quot;</span>, <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_link</span>(<span class="st">&quot;Designsystemet&quot;</span>, <span class="at">href =</span> <span class="st">&quot;https://designsystemet.no&quot;</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_list</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_list_item</span>(<span class="st">&quot;First&quot;</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_list_item</span>(<span class="st">&quot;Second&quot;</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_list_item</span>(<span class="st">&quot;Third&quot;</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <h2 id="layout">Layout</h2>
 <h3 id="cards">Cards</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_card</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_card_block</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_heading</span>(<span class="st">&quot;Card Title&quot;</span>, <span class="at">level =</span> <span class="dv">3</span>, <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_paragraph</span>(<span class="st">&quot;Card content.&quot;</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_card</span>(<span class="at">variant =</span> <span class="st">&quot;tinted&quot;</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_card_block</span>(<span class="st">&quot;Highlighted content&quot;</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_card</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_card_block</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_heading</span>(<span class="st">&quot;Card Title&quot;</span>, <span class="at">level =</span> <span class="dv">3</span>, <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_paragraph</span>(<span class="st">&quot;Card content.&quot;</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_card</span>(<span class="at">variant =</span> <span class="st">&quot;tinted&quot;</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_card_block</span>(<span class="st">&quot;Highlighted content&quot;</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <h3 id="tables">Tables</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_table</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_thead</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tr</span>(<span class="fu">ds_th</span>(<span class="st">&quot;Name&quot;</span>), <span class="fu">ds_th</span>(<span class="st">&quot;Role&quot;</span>), <span class="fu">ds_th</span>(<span class="st">&quot;Status&quot;</span>))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tbody</span>(</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tr</span>(<span class="fu">ds_td</span>(<span class="st">&quot;Alice&quot;</span>), <span class="fu">ds_td</span>(<span class="st">&quot;Developer&quot;</span>),</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">ds_td</span>(<span class="fu">ds_tag</span>(<span class="st">&quot;Active&quot;</span>, <span class="at">color =</span> <span class="st">&quot;success&quot;</span>))),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tr</span>(<span class="fu">ds_td</span>(<span class="st">&quot;Bob&quot;</span>),   <span class="fu">ds_td</span>(<span class="st">&quot;Designer&quot;</span>),</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">ds_td</span>(<span class="fu">ds_tag</span>(<span class="st">&quot;Active&quot;</span>, <span class="at">color =</span> <span class="st">&quot;success&quot;</span>)))</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_table</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_thead</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tr</span>(<span class="fu">ds_th</span>(<span class="st">&quot;Name&quot;</span>), <span class="fu">ds_th</span>(<span class="st">&quot;Role&quot;</span>), <span class="fu">ds_th</span>(<span class="st">&quot;Status&quot;</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tbody</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tr</span>(<span class="fu">ds_td</span>(<span class="st">&quot;Alice&quot;</span>), <span class="fu">ds_td</span>(<span class="st">&quot;Developer&quot;</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">ds_td</span>(<span class="fu">ds_tag</span>(<span class="st">&quot;Active&quot;</span>, <span class="at">color =</span> <span class="st">&quot;success&quot;</span>))),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tr</span>(<span class="fu">ds_td</span>(<span class="st">&quot;Bob&quot;</span>),   <span class="fu">ds_td</span>(<span class="st">&quot;Designer&quot;</span>),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">ds_td</span>(<span class="fu">ds_tag</span>(<span class="st">&quot;Active&quot;</span>, <span class="at">color =</span> <span class="st">&quot;success&quot;</span>)))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <h3 id="tabs-web-component">Tabs (web component)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_tabs</span>(<span class="st">&quot;my_tabs&quot;</span>,</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tablist</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tab</span>(<span class="st">&quot;Overview&quot;</span>,  <span class="at">value =</span> <span class="st">&quot;overview&quot;</span>,  <span class="at">selected =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tab</span>(<span class="st">&quot;Details&quot;</span>,   <span class="at">value =</span> <span class="st">&quot;details&quot;</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;overview&quot;</span>,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_paragraph</span>(<span class="st">&quot;Overview content.&quot;</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;details&quot;</span>,</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_paragraph</span>(<span class="st">&quot;Details content.&quot;</span>)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># In server: input$my_tabs returns the selected tab value string</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_tabs</span>(<span class="st">&quot;my_tabs&quot;</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tablist</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tab</span>(<span class="st">&quot;Overview&quot;</span>,  <span class="at">value =</span> <span class="st">&quot;overview&quot;</span>,  <span class="at">selected =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tab</span>(<span class="st">&quot;Details&quot;</span>,   <span class="at">value =</span> <span class="st">&quot;details&quot;</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;overview&quot;</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_paragraph</span>(<span class="st">&quot;Overview content.&quot;</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;details&quot;</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_paragraph</span>(<span class="st">&quot;Details content.&quot;</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># In server: input$my_tabs returns the selected tab value string</span></span></code></pre></div>
 </div>
 <h3 id="pagination-web-component">Pagination (web component)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_pagination</span>(<span class="st">&quot;pager&quot;</span>, <span class="at">current =</span> <span class="dv">1</span>, <span class="at">total =</span> <span class="dv">10</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># In server: input$pager returns the current page number (integer)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_pagination</span>(<span class="st">&quot;pager&quot;</span>, <span class="at">current =</span> <span class="dv">1</span>, <span class="at">total =</span> <span class="dv">10</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># In server: input$pager returns the current page number (integer)</span></span></code></pre></div>
 </div>
 <h2 id="navigation">Navigation</h2>
 <h3 id="breadcrumbs">Breadcrumbs</h3>
 <p>Show the current location within a multi-level structure:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_breadcrumbs</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">ol</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">li</span>(<span class="fu">ds_link</span>(<span class="st">&quot;Home&quot;</span>,     <span class="at">href =</span> <span class="st">&quot;/&quot;</span>)),</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">li</span>(<span class="fu">ds_link</span>(<span class="st">&quot;Reports&quot;</span>,  <span class="at">href =</span> <span class="st">&quot;/reports&quot;</span>)),</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">li</span>(tags<span class="sc">$</span><span class="fu">span</span>(<span class="st">&quot;Annual summary&quot;</span>))  <span class="co"># current page — plain text, no link</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_breadcrumbs</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">ol</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">li</span>(<span class="fu">ds_link</span>(<span class="st">&quot;Home&quot;</span>,     <span class="at">href =</span> <span class="st">&quot;/&quot;</span>)),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">li</span>(<span class="fu">ds_link</span>(<span class="st">&quot;Reports&quot;</span>,  <span class="at">href =</span> <span class="st">&quot;/reports&quot;</span>)),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">li</span>(tags<span class="sc">$</span><span class="fu">span</span>(<span class="st">&quot;Annual summary&quot;</span>))  <span class="co"># current page — plain text, no link</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <p>The last item should be plain text rather than a link, since it represents the current page.</p>
 <h3 id="skip-link">Skip link</h3>
 <p>Place a skip link at the very top of the page so keyboard users can jump past navigation directly to the main content:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_fluid</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_designsystemet</span>(),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_skip_link</span>(<span class="st">&quot;Skip to main content&quot;</span>, <span class="at">href =</span> <span class="st">&quot;#main&quot;</span>),</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... navigation ...</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">main</span>(<span class="at">id =</span> <span class="st">&quot;main&quot;</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... page content ...</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_fluid</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_designsystemet</span>(),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_skip_link</span>(<span class="st">&quot;Skip to main content&quot;</span>, <span class="at">href =</span> <span class="st">&quot;#main&quot;</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... navigation ...</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">main</span>(<span class="at">id =</span> <span class="st">&quot;main&quot;</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... page content ...</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <p><code>ds_skip_link()</code> renders as a visually hidden link that becomes visible when it receives keyboard focus. It should be the first focusable element on the page.</p>
 <h2 id="feedback-components">Feedback components</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Informational message.&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;info&quot;</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Operation succeeded.&quot;</span>,   <span class="at">variant =</span> <span class="st">&quot;success&quot;</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Review before saving.&quot;</span>,  <span class="at">variant =</span> <span class="st">&quot;warning&quot;</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Something went wrong.&quot;</span>,  <span class="at">variant =</span> <span class="st">&quot;danger&quot;</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_spinner</span>(<span class="at">title =</span> <span class="st">&quot;Loading…&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_skeleton</span>(<span class="at">variant =</span> <span class="st">&quot;text&quot;</span>,      <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_skeleton</span>(<span class="at">variant =</span> <span class="st">&quot;circle&quot;</span>,    <span class="at">width =</span> <span class="st">&quot;48px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;48px&quot;</span>)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_skeleton</span>(<span class="at">variant =</span> <span class="st">&quot;rectangle&quot;</span>, <span class="at">width =</span> <span class="st">&quot;200px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;80px&quot;</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_badge_position</span>(</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Inbox&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;secondary&quot;</span>),</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_badge</span>(<span class="at">count =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;danger&quot;</span>)</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Informational message.&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;info&quot;</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Operation succeeded.&quot;</span>,   <span class="at">variant =</span> <span class="st">&quot;success&quot;</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Review before saving.&quot;</span>,  <span class="at">variant =</span> <span class="st">&quot;warning&quot;</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_alert</span>(<span class="st">&quot;Something went wrong.&quot;</span>,  <span class="at">variant =</span> <span class="st">&quot;danger&quot;</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_spinner</span>(<span class="at">title =</span> <span class="st">&quot;Loading…&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_skeleton</span>(<span class="at">variant =</span> <span class="st">&quot;text&quot;</span>,      <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_skeleton</span>(<span class="at">variant =</span> <span class="st">&quot;circle&quot;</span>,    <span class="at">width =</span> <span class="st">&quot;48px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;48px&quot;</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_skeleton</span>(<span class="at">variant =</span> <span class="st">&quot;rectangle&quot;</span>, <span class="at">width =</span> <span class="st">&quot;200px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;80px&quot;</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_badge_position</span>(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Inbox&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;secondary&quot;</span>),</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_badge</span>(<span class="at">count =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;danger&quot;</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <h2 id="display-components">Display components</h2>
 <h3 id="avatar">Avatar</h3>
 <p>Display user initials or a profile image:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initials</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(<span class="st">&quot;AB&quot;</span>, <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(<span class="st">&quot;CD&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(<span class="st">&quot;EF&quot;</span>, <span class="at">size =</span> <span class="st">&quot;lg&quot;</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Image</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">img</span>(<span class="at">src =</span> <span class="st">&quot;profile.jpg&quot;</span>, <span class="at">alt =</span> <span class="st">&quot;Alice B.&quot;</span>),</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="st">&quot;lg&quot;</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Group several avatars in a stack</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar_stack</span>(</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;AB&quot;</span>),</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;CD&quot;</span>),</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;EF&quot;</span>),</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;GH&quot;</span>)</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initials</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(<span class="st">&quot;AB&quot;</span>, <span class="at">size =</span> <span class="st">&quot;sm&quot;</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(<span class="st">&quot;CD&quot;</span>, <span class="at">size =</span> <span class="st">&quot;md&quot;</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(<span class="st">&quot;EF&quot;</span>, <span class="at">size =</span> <span class="st">&quot;lg&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Image</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">img</span>(<span class="at">src =</span> <span class="st">&quot;profile.jpg&quot;</span>, <span class="at">alt =</span> <span class="st">&quot;Alice B.&quot;</span>),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="st">&quot;lg&quot;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Group several avatars in a stack</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_avatar_stack</span>(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;AB&quot;</span>),</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;CD&quot;</span>),</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;EF&quot;</span>),</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_avatar</span>(<span class="st">&quot;GH&quot;</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <h3 id="chip">Chip</h3>
 <p>A toggleable filter chip with an <code>aria-pressed</code> state:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;React&quot;</span>,      <span class="at">selected =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Vue&quot;</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Angular&quot;</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Svelte&quot;</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;React&quot;</span>, <span class="at">selected =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Vue&quot;</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Angular&quot;</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Svelte&quot;</span>)</span></code></pre></div>
 </div>
-<p><code>ds_chip()</code> renders as a <code>&lt;button&gt;</code>. To make chips reactive, attach a click listener and call <code>Shiny.setInputValue()</code> — the same pattern used for <code>ds_toggle_group()</code> in the <em>Reactivity Patterns</em> vignette applies here.</p>
+<p><code>ds_chip()</code> renders as a <code>&lt;button&gt;</code> and is display-only on its own.</p>
+<p>For reactive multi-select filtering, wrap chips in <code>ds_chip_group()</code>. Selected chip values are reported to Shiny as a character vector via <code>input[[inputId]]</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip_group</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;languages&quot;</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;R&quot;</span>,      <span class="at">value =</span> <span class="st">&quot;r&quot;</span>,      <span class="at">selected =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;Python&quot;</span>, <span class="at">value =</span> <span class="st">&quot;python&quot;</span>),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;Julia&quot;</span>,  <span class="at">value =</span> <span class="st">&quot;julia&quot;</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>languages, {</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Selected:&quot;</span>, <span class="fu">paste</span>(input<span class="sc">$</span>languages, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+</div>
+<p>Each chip needs a <code>value</code> attribute (passed via <code>...</code>) that becomes the reported value. If <code>value</code> is omitted, the chip’s text content is used instead. Disabled chips are excluded from click handling automatically.</p>
 <h3 id="tooltip">Tooltip</h3>
 <p><code>ds_tooltip()</code> wraps any element and attaches a tooltip via <code>data-tooltip</code> attributes. Unlike other components it does not create a new element — it modifies the element you pass in:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_tooltip</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Delete&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;danger&quot;</span>),</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">text      =</span> <span class="st">&quot;Permanently removes the record&quot;</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">placement =</span> <span class="st">&quot;top&quot;</span>    <span class="co"># &quot;top&quot;, &quot;bottom&quot;, &quot;left&quot;, &quot;right&quot;</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_tooltip</span>(</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_badge</span>(<span class="at">count =</span> <span class="dv">12</span>),</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">text =</span> <span class="st">&quot;Unread notifications&quot;</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_tooltip</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Delete&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;danger&quot;</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">text      =</span> <span class="st">&quot;Permanently removes the record&quot;</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">placement =</span> <span class="st">&quot;top&quot;</span>    <span class="co"># &quot;top&quot;, &quot;bottom&quot;, &quot;left&quot;, &quot;right&quot;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_tooltip</span>(</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_badge</span>(<span class="at">count =</span> <span class="dv">12</span>),</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">text =</span> <span class="st">&quot;Unread notifications&quot;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <h2 id="updating-inputs-from-the-server">Updating inputs from the server</h2>
 <p>Several inputs support programmatic updates:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>reset, {</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_input</span>(session,    <span class="st">&quot;name&quot;</span>,    <span class="at">value =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_checkbox</span>(session, <span class="st">&quot;agree&quot;</span>,   <span class="at">value =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_select</span>(session,   <span class="st">&quot;country&quot;</span>, <span class="at">value =</span> <span class="st">&quot;no&quot;</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_tabs</span>(session,     <span class="st">&quot;my_tabs&quot;</span>, <span class="at">selected =</span> <span class="st">&quot;overview&quot;</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_pagination</span>(session, <span class="st">&quot;pager&quot;</span>, <span class="at">current =</span> <span class="dv">1</span>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>reset, {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_input</span>(session,    <span class="st">&quot;name&quot;</span>,    <span class="at">value =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_checkbox</span>(session, <span class="st">&quot;agree&quot;</span>,   <span class="at">value =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_select</span>(session,   <span class="st">&quot;country&quot;</span>, <span class="at">value =</span> <span class="st">&quot;no&quot;</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_tabs</span>(session,     <span class="st">&quot;my_tabs&quot;</span>, <span class="at">selected =</span> <span class="st">&quot;overview&quot;</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">update_ds_pagination</span>(session, <span class="st">&quot;pager&quot;</span>, <span class="at">current =</span> <span class="dv">1</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<h3 id="opening-and-closing-dialogs">Opening and closing dialogs</h3>
+<p><code>ds_dialog()</code> must be placed in the UI. Open and close it from the server:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_button</span>(<span class="st">&quot;Open&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;open_dlg&quot;</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_dialog</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="st">&quot;my-dialog&quot;</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_paragraph</span>(<span class="st">&quot;Are you sure?&quot;</span>),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Confirm&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;btn_confirm&quot;</span>),</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_button</span>(<span class="st">&quot;Cancel&quot;</span>,  <span class="at">inputId =</span> <span class="st">&quot;btn_cancel&quot;</span>, <span class="at">variant =</span> <span class="st">&quot;secondary&quot;</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>open_dlg,   <span class="fu">show_ds_dialog</span>(<span class="st">&quot;my-dialog&quot;</span>))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>btn_cancel, <span class="fu">hide_ds_dialog</span>(<span class="st">&quot;my-dialog&quot;</span>))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>btn_confirm, {</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hide_ds_dialog</span>(<span class="st">&quot;my-dialog&quot;</span>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># act on confirmation</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 </div>
 <h2 id="using-bslib-layout-primitives">Using bslib layout primitives</h2>
 <p>Because <code>shinyds</code> components are plain HTML tags, they compose naturally with <code>bslib</code> layout functions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_fluid</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_designsystemet</span>(),</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_sidebar</span>(</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">title    =</span> <span class="st">&quot;Controls&quot;</span>,</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> <span class="st">&quot;right&quot;</span>,</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">width    =</span> <span class="dv">280</span>,</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">verbatimTextOutput</span>(<span class="st">&quot;values&quot;</span>)</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Main content</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tabs</span>(<span class="st">&quot;tabs&quot;</span>,</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ds_tablist</span>(</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_tab</span>(<span class="st">&quot;Form&quot;</span>,   <span class="at">value =</span> <span class="st">&quot;form&quot;</span>,   <span class="at">selected =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_tab</span>(<span class="st">&quot;Result&quot;</span>, <span class="at">value =</span> <span class="st">&quot;result&quot;</span>)</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;form&quot;</span>,</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_field</span>(<span class="fu">ds_label</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;nm&quot;</span>), <span class="fu">ds_input</span>(<span class="st">&quot;nm&quot;</span>)),</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_button</span>(<span class="st">&quot;Submit&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;go&quot;</span>)</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;result&quot;</span>,</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">verbatimTextOutput</span>(<span class="st">&quot;out&quot;</span>)</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_fluid</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">use_designsystemet</span>(),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_sidebar</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">title    =</span> <span class="st">&quot;Controls&quot;</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">width    =</span> <span class="dv">280</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">verbatimTextOutput</span>(<span class="st">&quot;values&quot;</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Main content</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ds_tabs</span>(<span class="st">&quot;tabs&quot;</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ds_tablist</span>(</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_tab</span>(<span class="st">&quot;Form&quot;</span>,   <span class="at">value =</span> <span class="st">&quot;form&quot;</span>,   <span class="at">selected =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_tab</span>(<span class="st">&quot;Result&quot;</span>, <span class="at">value =</span> <span class="st">&quot;result&quot;</span>)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;form&quot;</span>,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_field</span>(<span class="fu">ds_label</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">`</span><span class="at">for</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;nm&quot;</span>), <span class="fu">ds_input</span>(<span class="st">&quot;nm&quot;</span>)),</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ds_button</span>(<span class="st">&quot;Submit&quot;</span>, <span class="at">inputId =</span> <span class="st">&quot;go&quot;</span>)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ds_tabpanel</span>(<span class="at">value =</span> <span class="st">&quot;result&quot;</span>,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">verbatimTextOutput</span>(<span class="st">&quot;out&quot;</span>)</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <p>Use <code>bslib::layout_columns()</code> for equal-width column grids, and <code>bslib::layout_column_wrap(width = &quot;220px&quot;)</code> for auto-fitting responsive grids.</p>
 <h2 id="running-the-example-apps">Running the example apps</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Minimal form example</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="fu">system.file</span>(<span class="st">&quot;examples/basic&quot;</span>, <span class="at">package =</span> <span class="st">&quot;shinyds&quot;</span>))</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Data visualisation with tabs and layout_sidebar</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="fu">system.file</span>(<span class="st">&quot;examples/faithful&quot;</span>, <span class="at">package =</span> <span class="st">&quot;shinyds&quot;</span>))</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Full component reference</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="fu">system.file</span>(<span class="st">&quot;examples/showcase&quot;</span>, <span class="at">package =</span> <span class="st">&quot;shinyds&quot;</span>))</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Minimal form example</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="fu">system.file</span>(<span class="st">&quot;examples/basic&quot;</span>, <span class="at">package =</span> <span class="st">&quot;shinyds&quot;</span>))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Data visualisation with tabs and layout_sidebar</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="fu">system.file</span>(<span class="st">&quot;examples/faithful&quot;</span>, <span class="at">package =</span> <span class="st">&quot;shinyds&quot;</span>))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Full component reference</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="fu">system.file</span>(<span class="st">&quot;examples/showcase&quot;</span>, <span class="at">package =</span> <span class="st">&quot;shinyds&quot;</span>))</span></code></pre></div>
 </div>
 <h2 id="next-steps">Next steps</h2>
 <ul>

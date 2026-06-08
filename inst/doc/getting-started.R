@@ -41,6 +41,24 @@ library(shinyds)
 
 ## -----------------------------------------------------------------------------
 #| eval: false
+# ui <- bslib::page_fluid(
+#   use_designsystemet(),
+#   ds_theme(
+#     color          = "brand1",       # global color context
+#     border_radius  = "2px",          # tighter corners
+#     button_padding = "0.3rem 0.8rem" # compact buttons
+#   ),
+#   # ... components
+# )
+
+
+## -----------------------------------------------------------------------------
+#| eval: false
+# ds_theme(`--ds-border-width-focus` = "3px")
+
+
+## -----------------------------------------------------------------------------
+#| eval: false
 # # label first, then inputId
 # ds_button("Click me",  inputId = "btn1", variant = "primary")
 # ds_button("Secondary", inputId = "btn2", variant = "secondary")
@@ -54,6 +72,12 @@ library(shinyds)
 # # states
 # ds_button("Disabled", variant = "primary", disabled = TRUE)
 # ds_button("Loading",  variant = "secondary", loading = TRUE)
+
+
+## -----------------------------------------------------------------------------
+#| eval: false
+# # equivalent to shiny::actionButton("go", "Submit")
+# ds_action_button("go", "Submit", variant = "primary")
 
 
 ## -----------------------------------------------------------------------------
@@ -297,10 +321,26 @@ library(shinyds)
 
 ## -----------------------------------------------------------------------------
 #| eval: false
-# ds_chip("React",      selected = TRUE)
+# ds_chip("React", selected = TRUE)
 # ds_chip("Vue")
 # ds_chip("Angular")
 # ds_chip("Svelte")
+
+
+## -----------------------------------------------------------------------------
+#| eval: false
+# # UI
+# ds_chip_group(
+#   "languages",
+#   ds_chip("R",      value = "r",      selected = TRUE),
+#   ds_chip("Python", value = "python"),
+#   ds_chip("Julia",  value = "julia")
+# )
+# 
+# # Server
+# observeEvent(input$languages, {
+#   cat("Selected:", paste(input$languages, collapse = ", "), "\n")
+# })
 
 
 ## -----------------------------------------------------------------------------
@@ -328,6 +368,26 @@ library(shinyds)
 #     update_ds_pagination(session, "pager", current = 1)
 #   })
 # }
+
+
+## -----------------------------------------------------------------------------
+#| eval: false
+# # UI
+# ds_button("Open", inputId = "open_dlg")
+# ds_dialog(
+#   id = "my-dialog",
+#   ds_paragraph("Are you sure?"),
+#   ds_button("Confirm", inputId = "btn_confirm"),
+#   ds_button("Cancel",  inputId = "btn_cancel", variant = "secondary")
+# )
+# 
+# # Server
+# observeEvent(input$open_dlg,   show_ds_dialog("my-dialog"))
+# observeEvent(input$btn_cancel, hide_ds_dialog("my-dialog"))
+# observeEvent(input$btn_confirm, {
+#   hide_ds_dialog("my-dialog")
+#   # act on confirmation
+# })
 
 
 ## -----------------------------------------------------------------------------

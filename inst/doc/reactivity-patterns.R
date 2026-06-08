@@ -49,11 +49,7 @@ library(shinyds)
 ## -----------------------------------------------------------------------------
 #| eval: false
 # # UI
-# tags$button(
-#   class   = "ds-button", `data-variant` = "primary",
-#   onclick = "document.getElementById('confirm-dialog').showModal()",
-#   "Delete item"
-# )
+# ds_button("Delete item", inputId = "open_confirm", variant = "primary")
 # 
 # ds_dialog(
 #   id = "confirm-dialog",
@@ -61,32 +57,33 @@ library(shinyds)
 #   ds_paragraph("This action cannot be undone."),
 #   tags$div(
 #     style = "display:flex; gap:0.75rem; margin-top:1rem;",
-#     tags$button(
-#       id = "dialog-confirm",
-#       class = "ds-button", `data-variant` = "primary",
-#       onclick = "document.getElementById('confirm-dialog').close('confirm')",
-#       "Delete"
-#     ),
-#     tags$button(
-#       class = "ds-button", `data-variant` = "secondary",
-#       onclick = "document.getElementById('confirm-dialog').close('cancel')",
-#       "Cancel"
-#     )
+#     ds_button("Delete", inputId = "btn_confirm", variant = "primary"),
+#     ds_button("Cancel", inputId = "btn_cancel",  variant = "secondary")
 #   )
 # )
 # 
+# # Server
+# observeEvent(input$open_confirm, {
+#   show_ds_dialog("confirm-dialog")
+# })
+# 
+# observeEvent(input$btn_cancel, {
+#   hide_ds_dialog("confirm-dialog")
+# })
+# 
+# observeEvent(input$btn_confirm, {
+#   hide_ds_dialog("confirm-dialog")
+#   # perform deletion
+# })
+
+
+## -----------------------------------------------------------------------------
+#| eval: false
 # tags$script(HTML("
 #   document.getElementById('confirm-dialog').addEventListener('close', function(e) {
-#     Shiny.setInputValue('confirm_dialog', e.target.returnValue, {priority: 'event'});
+#     Shiny.setInputValue('confirm_result', e.target.returnValue, {priority: 'event'});
 #   });
 # "))
-# 
-# # Server
-# observeEvent(input$confirm_dialog, {
-#   if (input$confirm_dialog == 'confirm') {
-#     # perform deletion
-#   }
-# })
 
 
 ## -----------------------------------------------------------------------------
