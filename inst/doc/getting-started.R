@@ -47,7 +47,7 @@ library(shinyds)
 #     color          = "brand1",       # global color context
 #     border_radius  = "2px",          # tighter corners
 #     button_padding = "0.3rem 0.8rem" # compact buttons
-#   ),
+#   )
 #   # ... components
 # )
 
@@ -272,7 +272,8 @@ library(shinyds)
 #   use_designsystemet(),
 #   ds_skip_link("Skip to main content", href = "#main"),
 #   # ... navigation ...
-#   tags$main(id = "main",
+#   tags$main(
+#     id = "main"
 #     # ... page content ...
 #   )
 # )

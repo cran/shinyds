@@ -1,3 +1,22 @@
+# shinyds 0.7.2
+
+## Documentation
+
+* add r-universe installation info ([#74](https://github.com/novica/shinyds/issues/74)) ([e044a04](https://github.com/novica/shinyds/commit/e044a04c9503b34e0bef4f0076492c093e2669e5))
+* guard bslib examples and quote 'Designsystemet' ([#81](https://github.com/novica/shinyds/issues/81)) ([461ac94](https://github.com/novica/shinyds/commit/461ac9497c7fdd6f42dfc6b6d9b6e3643618fa98))
+
+# shinyds 0.7.1
+
+## Documentation
+
+* add citation files with the CRAN DOI and compare shinyds with shinyreact ([#68](https://github.com/novica/shinyds/issues/68)) ([e538028](https://github.com/novica/shinyds/commit/e53802810772fd4c8fb4a0f258974e55420a8ddc))
+
+# shinyds 0.7.0
+
+## New features
+
+* update Designsystemet to 1.23.0 ([dd17d13](https://github.com/novica/shinyds/commit/dd17d130c3caa20c3b51d2844e221413d68b064a))
+
 # shinyds 0.6.0
 
 ## New features

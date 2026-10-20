@@ -7,9 +7,12 @@ NULL
 #'
 #' @param ... Class names (can be NULL)
 #' @keywords internal
+#' @noRd
 .ds_classes <- function(...) {
   classes <- c(...)
   classes <- classes[!is.null(classes) & classes != ""]
-  if (length(classes) == 0) return(NULL)
+  if (length(classes) == 0) {
+    return(NULL)
+  }
   paste(classes, collapse = " ")
 }
