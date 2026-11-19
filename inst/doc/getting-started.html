@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -544,14 +544,14 @@ text-decoration: underline; }
 <span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <h3 id="chip">Chip</h3>
-<p>A toggleable filter chip with an <code>aria-pressed</code> state:</p>
+<p>A filter chip. Each chip is a checkbox inside a <code>&lt;label class=&quot;ds-chip&quot;&gt;</code>, so it shows a selected state when checked:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;React&quot;</span>, <span class="at">selected =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Vue&quot;</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Angular&quot;</span>)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip</span>(<span class="st">&quot;Svelte&quot;</span>)</span></code></pre></div>
 </div>
-<p><code>ds_chip()</code> renders as a <code>&lt;button&gt;</code> and is display-only on its own.</p>
+<p>On its own a chip has no Shiny value.</p>
 <p>For reactive multi-select filtering, wrap chips in <code>ds_chip_group()</code>. Selected chip values are reported to Shiny as a character vector via <code>input[[inputId]]</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
@@ -567,7 +567,7 @@ text-decoration: underline; }
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Selected:&quot;</span>, <span class="fu">paste</span>(input<span class="sc">$</span>languages, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 </div>
-<p>Each chip needs a <code>value</code> attribute (passed via <code>...</code>) that becomes the reported value. If <code>value</code> is omitted, the chip’s text content is used instead. Disabled chips are excluded from click handling automatically.</p>
+<p>Each chip’s <code>value</code> becomes the reported value; if it is omitted, the chip’s text is used instead. With no chip selected, <code>input[[inputId]]</code> is <code>NULL</code>. Chips with <code>disabled = TRUE</code> cannot be toggled.</p>
 <h3 id="tooltip">Tooltip</h3>
 <p><code>ds_tooltip()</code> wraps any element and attaches a tooltip via <code>data-tooltip</code> attributes. Unlike other components it does not create a new element — it modifies the element you pass in:</p>
 <div class="cell">

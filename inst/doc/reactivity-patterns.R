@@ -22,6 +22,21 @@ library(shinyds)
 ## -----------------------------------------------------------------------------
 #| eval: false
 # # UI
+# ds_chip_group("languages",
+#   ds_chip("R",      value = "r", selected = TRUE),
+#   ds_chip("Python", value = "python"),
+#   ds_chip("Julia",  value = "julia")
+# )
+# 
+# # Server
+# observeEvent(input$languages, {
+#   # input$languages is a character vector of selected values, e.g. "r"
+# })
+
+
+## -----------------------------------------------------------------------------
+#| eval: false
+# # UI
 # ds_toggle_group(
 #   "view_mode",
 #   tags$button(class = "ds-button", `data-variant` = "secondary",
@@ -35,21 +50,6 @@ library(shinyds)
 # # Server
 # observeEvent(input$view_mode, {
 #   # input$view_mode is "list", "grid", or "map"
-# })
-
-
-## -----------------------------------------------------------------------------
-#| eval: false
-# # UI
-# ds_chip_group("languages",
-#   ds_chip("R",      value = "r", selected = TRUE),
-#   ds_chip("Python", value = "python"),
-#   ds_chip("Julia",  value = "julia")
-# )
-# 
-# # Server
-# observeEvent(input$languages, {
-#   # input$languages is a character vector of selected values, e.g. "r"
 # })
 
 

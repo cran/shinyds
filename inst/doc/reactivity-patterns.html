@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -220,6 +220,11 @@ text-decoration: underline; }
 <h3 id="standard-input-bindings">Standard input bindings</h3>
 <p>Most components use a <code>Shiny.InputBinding</code> registered in <code>ds-bindings.js</code>. You use them exactly like native Shiny inputs:</p>
 <table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Component</th>
@@ -254,26 +259,31 @@ text-decoration: underline; }
 <td>selected value string</td>
 </tr>
 <tr class="even">
+<td>Chip group</td>
+<td><code>ds_chip_group()</code></td>
+<td>character vector of selected values, <code>NULL</code> if none</td>
+</tr>
+<tr class="odd">
 <td>Select</td>
 <td><code>ds_select()</code></td>
 <td>selected value string</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Search</td>
 <td><code>ds_search()</code></td>
 <td>character string</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Suggestion</td>
 <td><code>ds_suggestion()</code></td>
 <td>selected value string</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Tabs</td>
 <td><code>ds_tabs()</code></td>
 <td>selected tab value string</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Pagination</td>
 <td><code>ds_pagination()</code></td>
 <td>current page integer</td>
@@ -293,6 +303,20 @@ text-decoration: underline; }
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>plan, {</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input$plan is &quot;free&quot;, &quot;pro&quot;, or &quot;team&quot;</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+</div>
+<p><code>ds_chip_group()</code> works the same way for multiple selection: each <code>ds_chip()</code> is a checkbox, and the group container reports the values of the checked chips as one character vector, like <code>checkboxGroupInput()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip_group</span>(<span class="st">&quot;languages&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;R&quot;</span>,      <span class="at">value =</span> <span class="st">&quot;r&quot;</span>, <span class="at">selected =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;Python&quot;</span>, <span class="at">value =</span> <span class="st">&quot;python&quot;</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;Julia&quot;</span>,  <span class="at">value =</span> <span class="st">&quot;julia&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>languages, {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input$languages is a character vector of selected values, e.g. &quot;r&quot;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 </div>
 <h3 id="behaviour-only-module-components">Behaviour-only module components</h3>
 <p>The Designsystemet JavaScript bundle also includes modules that <strong>enhance native HTML elements</strong> rather than defining custom elements. The affected components are:</p>
@@ -338,35 +362,21 @@ text-decoration: underline; }
 <p><code>Shiny.setInputValue(id, value)</code> pushes a value directly to the Shiny server without needing a binding on the element. The server receives it via <code>input$id</code> and you react to it with <code>observeEvent()</code>.</p>
 <p><code>ds_toggle_group()</code> uses this pattern out of the box — it generates the script block for you:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_toggle_group</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;view_mode&quot;</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">button</span>(<span class="at">class =</span> <span class="st">&quot;ds-button&quot;</span>, <span class="st">`</span><span class="at">data-variant</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;secondary&quot;</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">aria-pressed</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;true&quot;</span>,  <span class="at">value =</span> <span class="st">&quot;list&quot;</span>, <span class="st">&quot;List&quot;</span>),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">button</span>(<span class="at">class =</span> <span class="st">&quot;ds-button&quot;</span>, <span class="st">`</span><span class="at">data-variant</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;secondary&quot;</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">aria-pressed</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;false&quot;</span>, <span class="at">value =</span> <span class="st">&quot;grid&quot;</span>, <span class="st">&quot;Grid&quot;</span>),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">button</span>(<span class="at">class =</span> <span class="st">&quot;ds-button&quot;</span>, <span class="st">`</span><span class="at">data-variant</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;secondary&quot;</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">aria-pressed</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;false&quot;</span>, <span class="at">value =</span> <span class="st">&quot;map&quot;</span>,  <span class="st">&quot;Map&quot;</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>view_mode, {</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input$view_mode is &quot;list&quot;, &quot;grid&quot;, or &quot;map&quot;</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
-</div>
-<p><code>ds_chip_group()</code> uses the same approach for selecting multiple values from a set of toggle-style chips — it also generates its own script block, so no manual JavaScript is needed:</p>
-<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_chip_group</span>(<span class="st">&quot;languages&quot;</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;R&quot;</span>,      <span class="at">value =</span> <span class="st">&quot;r&quot;</span>, <span class="at">selected =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;Python&quot;</span>, <span class="at">value =</span> <span class="st">&quot;python&quot;</span>),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ds_chip</span>(<span class="st">&quot;Julia&quot;</span>,  <span class="at">value =</span> <span class="st">&quot;julia&quot;</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>languages, {</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input$languages is a character vector of selected values, e.g. &quot;r&quot;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_toggle_group</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;view_mode&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">button</span>(<span class="at">class =</span> <span class="st">&quot;ds-button&quot;</span>, <span class="st">`</span><span class="at">data-variant</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;secondary&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">aria-pressed</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;true&quot;</span>,  <span class="at">value =</span> <span class="st">&quot;list&quot;</span>, <span class="st">&quot;List&quot;</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">button</span>(<span class="at">class =</span> <span class="st">&quot;ds-button&quot;</span>, <span class="st">`</span><span class="at">data-variant</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;secondary&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">aria-pressed</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;false&quot;</span>, <span class="at">value =</span> <span class="st">&quot;grid&quot;</span>, <span class="st">&quot;Grid&quot;</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">button</span>(<span class="at">class =</span> <span class="st">&quot;ds-button&quot;</span>, <span class="st">`</span><span class="at">data-variant</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;secondary&quot;</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">aria-pressed</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;false&quot;</span>, <span class="at">value =</span> <span class="st">&quot;map&quot;</span>,  <span class="st">&quot;Map&quot;</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>view_mode, {</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input$view_mode is &quot;list&quot;, &quot;grid&quot;, or &quot;map&quot;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 </div>
 <p>For the other behaviour-only components you attach your own listener.</p>
 <h2 id="details-accordion">Details / accordion</h2>
@@ -547,31 +557,26 @@ key must not be &quot;&quot; or NA</code></pre>
 <td>script generated by the R function</td>
 </tr>
 <tr class="even">
-<td><code>ds_chip_group()</code></td>
-<td><code>Shiny.setInputValue()</code> built in</td>
-<td>script generated by the R function; reports a character vector</td>
-</tr>
-<tr class="odd">
 <td><code>ds_details()</code></td>
 <td><code>toggle</code> event → <code>setInputValue</code></td>
 <td>use <code>{priority:&#39;event&#39;}</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>ds_dialog()</code></td>
 <td><code>show_ds_dialog()</code> / <code>hide_ds_dialog()</code></td>
 <td>preferred; JS listener only needed for <code>returnValue</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>ds_popover()</code></td>
 <td><code>toggle</code> event → <code>setInputValue</code></td>
 <td><code>e.newState === &#39;open&#39;</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>ds_fieldset()</code></td>
 <td><code>change</code> event → <code>setInputValue</code></td>
 <td>collect checked inputs manually</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>ds_dropdown()</code></td>
 <td><code>click</code> on trigger → <code>setInputValue</code></td>
 <td>track open/close state manually</td>
